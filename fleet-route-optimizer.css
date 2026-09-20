@@ -1,0 +1,112 @@
+/*
+ * Smart Route / Fleet Operations styles.
+ *
+ * Ported from RaahSaathi_FINAL (frontend/src/styles/fleet-route-optimizer.css and
+ * the map rules of app.css). Differences from the source, all deliberate:
+ *
+ *  - Every selector is scoped under `.fleet-dashboard`. The source used bare,
+ *    generic names (.muted, .score, .rank, .metric, .eyebrow, .primary-btn ...)
+ *    in the global scope; scoping keeps them from colliding with anything else
+ *    in this app (Tailwind utilities, Leaflet, future components).
+ *  - The source's global reset (:root, *, body, button/input/select { font },
+ *    footer, .brand, .dot, .app-shell ...) is NOT ported. It would have
+ *    overridden the Tailwind base (body background/font) for the whole app.
+ *  - The two conflicting .route-map / .route-map-wrap / legend definitions
+ *    (fleet css vs app.css) are merged into the single block at the bottom.
+ *  - Blue accents are routed through --fleet-accent* variables set to the
+ *    RaahSaathi teal. Change the five variables below to re-theme.
+ *  - Rules for the location-search UI were missing from the source entirely
+ *    (its markup was unstyled); they are added at the bottom.
+ *  - Tailwind's preflight zeroes heading weights and paragraph margins, which
+ *    the source relied on the browser defaults for; restored in the first block.
+ */
+.fleet-dashboard{--fleet-accent:#0d9488;--fleet-accent-dark:#0f766e;--fleet-accent-soft:#ccfbf1;--fleet-accent-softer:#f0fdfa;--fleet-accent-border:#99f6e4}
+.fleet-dashboard h2,.fleet-dashboard h3{font-weight:700}
+.fleet-dashboard button{font-family:inherit}
+.fleet-dashboard{display:grid;gap:20px;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.fleet-dashboard .fleet-card,.fleet-dashboard .heatmap-card{border:1px solid #e6e8ec;border-radius:20px;background:#fff;padding:22px;box-shadow:0 8px 30px rgba(18,24,40,.06);color:#171a21}
+.fleet-dashboard .fleet-header{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}
+.fleet-dashboard .eyebrow{font-size:11px;font-weight:800;letter-spacing:.14em;color:#6d7380}
+.fleet-dashboard .fleet-header h2{margin:4px 0 6px;font-size:21px}
+.fleet-dashboard .fleet-header p{margin:0;color:#6d7380;font-size:13px;max-width:700px}
+.fleet-dashboard .primary-btn,.fleet-dashboard .secondary-btn{border-radius:10px;padding:9px 13px;font-weight:700;cursor:pointer}
+.fleet-dashboard .primary-btn{border:0;background:var(--fleet-accent-dark);color:#fff}
+.fleet-dashboard .secondary-btn{border:1px solid #dfe2e7;background:#fff;color:#171a21}
+.fleet-dashboard .primary-btn:disabled,.fleet-dashboard .secondary-btn:disabled{opacity:.5;cursor:not-allowed}
+.fleet-dashboard .route-alert,.fleet-dashboard .demo-banner,.fleet-dashboard .carpool-card{margin-top:18px;border-radius:14px;padding:14px}
+.fleet-dashboard .route-alert{background:var(--fleet-accent-softer);border:1px solid var(--fleet-accent-border);display:grid;gap:3px;font-size:13px}
+.fleet-dashboard .demo-banner{background:#fff8e8;border:1px solid #f0dfb0;font-size:13px}
+.fleet-dashboard .carpool-card{background:#f6fbf8;border:1px solid #d8eee0;display:grid;grid-template-columns:1fr auto;gap:4px 14px}
+.fleet-dashboard .carpool-card p{margin:5px 0 0;font-size:13px;color:#626a75}
+.fleet-dashboard .carpool-card small{grid-column:1/-1;color:#626a75}
+.fleet-dashboard .route-list{display:grid;gap:12px;margin-top:18px}
+.fleet-dashboard .route-item{border:1px solid #e7e9ed;border-radius:15px;padding:15px}
+.fleet-dashboard .route-item.recommended{border-color:var(--fleet-accent-border);box-shadow:0 0 0 2px var(--fleet-accent-soft)}
+.fleet-dashboard .route-top{display:flex;justify-content:space-between;gap:10px}
+.fleet-dashboard .provider-pill,.fleet-dashboard .recommended-pill{display:inline-block;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-right:6px;background:#f0f1f4}
+.fleet-dashboard .recommended-pill{background:var(--fleet-accent-soft);color:var(--fleet-accent-dark)}
+.fleet-dashboard .route-item h3{margin:8px 0 2px;font-size:16px}
+.fleet-dashboard .muted{margin:0;color:#717986;font-size:12px}
+.fleet-dashboard .score{text-align:right}
+.fleet-dashboard .score strong{font-size:22px}
+.fleet-dashboard .score span{display:block;font-size:10px;color:#7b828c}
+.fleet-dashboard .safety-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:12px}
+.fleet-dashboard .metric{background:#f7f8fa;border-radius:10px;padding:8px}
+.fleet-dashboard .metric span{display:block;font-size:10px;color:#737b87}
+.fleet-dashboard .metric strong{font-size:14px}
+.fleet-dashboard .traffic-row,.fleet-dashboard .status-row{display:flex;justify-content:space-between;gap:12px;font-size:11px;color:#737b87;margin-top:12px}
+.fleet-dashboard .heatmap-card select{border:1px solid #dfe2e7;border-radius:9px;padding:8px;background:#fff}
+.fleet-dashboard .heatmap-grid{display:grid;grid-template-columns:repeat(6,minmax(18px,1fr));gap:3px;margin-top:18px;min-height:130px}
+.fleet-dashboard .heat-cell{aspect-ratio:1;border-radius:4px;background:rgba(13,148,136,var(--heat,1));display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#0f172a;min-height:20px}
+.fleet-dashboard .fleet-error{padding:14px;border:1px solid #f0caca;background:#fff5f5;border-radius:12px;color:#a22}
+@media(max-width:700px){.fleet-dashboard .fleet-header,.fleet-dashboard .route-top{flex-direction:column}.fleet-dashboard .safety-grid{grid-template-columns:repeat(2,1fr)}.fleet-dashboard .carpool-card{grid-template-columns:1fr}.fleet-dashboard .heatmap-grid{grid-template-columns:repeat(3,1fr)}}
+.fleet-dashboard .sustainability-card{border:1px solid #e6e8ec;border-radius:20px;background:#fff;padding:22px;box-shadow:0 8px 30px rgba(18,24,40,.06);color:#171a21}
+.fleet-dashboard .points-badge{min-width:92px;text-align:center;background:var(--fleet-accent-softer);border:1px solid var(--fleet-accent-border);border-radius:14px;padding:9px 12px}
+.fleet-dashboard .points-badge strong{display:block;font-size:22px}
+.fleet-dashboard .points-badge span{font-size:10px;color:#6d7380}
+.fleet-dashboard .impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.fleet-dashboard .impact-card{border:1px solid #e7e9ed;border-radius:14px;padding:13px;background:#fafbfc}
+.fleet-dashboard .impact-card.highlight{background:#f6fbf8;border-color:#d8eee0}
+.fleet-dashboard .impact-card span,.fleet-dashboard .impact-card small{display:block;color:#737b87;font-size:11px}
+.fleet-dashboard .impact-card strong{display:block;font-size:18px;margin:5px 0}
+.fleet-dashboard .leaderboard-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:20px;font-size:13px}
+.fleet-dashboard .leaderboard-head span{color:#737b87;font-size:11px}
+.fleet-dashboard .leaderboard-list{display:grid;gap:6px;margin-top:10px}
+.fleet-dashboard .leaderboard-row{display:grid;grid-template-columns:42px 1fr auto 52px;gap:10px;align-items:center;padding:10px 12px;border-radius:10px;background:#f7f8fa;font-size:12px}
+.fleet-dashboard .leaderboard-row.current-user{outline:2px solid var(--fleet-accent-soft);background:var(--fleet-accent-softer)}
+.fleet-dashboard .rank{font-weight:800;color:#6d7380}
+.fleet-dashboard .rider-name{font-weight:700}
+.fleet-dashboard .saved{color:#737b87}
+.fleet-dashboard .leaderboard-row>strong{text-align:right}
+.fleet-dashboard .sustainability-btn{margin-top:14px}
+.fleet-dashboard .sustainability-note{display:block;color:#737b87;font-size:10px;margin-top:8px}
+@media(max-width:700px){.fleet-dashboard .impact-grid{grid-template-columns:1fr}.fleet-dashboard .leaderboard-row{grid-template-columns:34px 1fr 54px}.fleet-dashboard .saved{display:none}.fleet-dashboard .points-badge{align-self:flex-start}}
+
+/* ------------------------------------------------------------- route map --- */
+/* isolation: Leaflet gives its panes z-index 400-1000; without a stacking
+   context here they would paint over the sticky header and the tab bar. */
+.fleet-dashboard .route-map-wrap{position:relative;isolation:isolate;width:100%;margin-top:18px}
+.fleet-dashboard .route-map{width:100%;height:420px;border-radius:16px;overflow:hidden;border:1px solid #d9e2ec}
+.fleet-dashboard .route-map-legend{position:absolute;left:14px;bottom:14px;z-index:1000;display:flex;gap:18px;align-items:center;padding:8px 12px;background:rgba(255,255,255,.95);border-radius:10px;box-shadow:0 4px 14px rgba(16,42,67,.12);font-size:12px;font-weight:700;color:#555d69}
+.fleet-dashboard .route-map-legend span{display:flex;align-items:center;gap:6px}
+.fleet-dashboard .legend-dot{display:inline-block;width:9px;height:9px;border-radius:50%}
+.fleet-dashboard .recommended-dot{background:#1f7a5a}
+.fleet-dashboard .alternate-dot{background:#8d98a7}
+@media(max-width:700px){.fleet-dashboard .route-map{height:300px}.fleet-dashboard .route-map-legend{gap:12px;font-size:11px}}
+
+/* --------------------------------------------------------- route planner --- */
+.fleet-dashboard .route-planner-card{border:1px solid #e6e8ec;border-radius:20px;background:#fff;padding:22px;box-shadow:0 8px 30px rgba(18,24,40,.06);color:#171a21}
+.fleet-dashboard .route-planner-header h2{margin:4px 0 6px;font-size:21px}
+.fleet-dashboard .route-planner-header p{margin:0;color:#6d7380;font-size:13px;max-width:700px}
+.fleet-dashboard .location-search-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:16px}
+.fleet-dashboard .location-search label{display:block;margin-bottom:6px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#6d7380}
+.fleet-dashboard .location-input-row{display:flex;gap:8px}
+.fleet-dashboard .location-input-row input{flex:1;min-width:0;border:1px solid #dfe2e7;border-radius:10px;padding:9px 12px;font-size:14px;background:#fff;color:#171a21}
+.fleet-dashboard .location-results{display:grid;gap:2px;margin-top:6px;padding:4px;border:1px solid #e6e8ec;border-radius:12px;background:#fff;box-shadow:0 8px 24px rgba(18,24,40,.08)}
+.fleet-dashboard .location-result{display:grid;gap:2px;width:100%;padding:8px 10px;border:0;border-radius:8px;background:transparent;text-align:left;font-size:13px;color:#171a21;cursor:pointer}
+.fleet-dashboard .location-result:hover,.fleet-dashboard .location-result:focus-visible{background:var(--fleet-accent-softer)}
+.fleet-dashboard .location-result span{color:#737b87;font-size:11px}
+.fleet-dashboard .location-selected{display:block;margin-top:6px;color:#1f7a5a;font-size:11px;font-weight:700}
+.fleet-dashboard .location-error{display:block;margin-top:6px;color:#a22;font-size:11px}
+.fleet-dashboard .empty-note{margin:16px 0 0;color:#737b87;font-size:12px}
+@media(min-width:700px){.fleet-dashboard .location-search-grid{grid-template-columns:1fr 1fr}}

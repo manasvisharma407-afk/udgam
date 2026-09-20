@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /$
+Allow: /rides
+Allow: /pool
+# The operations dashboard is not public-facing content.
+Disallow: /admin

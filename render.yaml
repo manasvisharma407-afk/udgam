@@ -1,0 +1,41 @@
+# Render blueprint — https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: raahsaathi-backend
+    runtime: node
+    plan: starter          # 'free' sleeps after 15 min; unsuitable for SOS.
+    region: singapore      # lowest RTT to Indian users
+    rootDir: backend
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: info
+      - key: SOS_RADIUS_KM
+        value: "5"
+      - key: LOCATION_BROADCAST_MS
+        value: "3000"
+      - key: DEMO_MODE
+        value: "false"
+      - key: CORS_ORIGINS
+        sync: false        # set to your Vercel production URL
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_JWT_SECRET
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: ADMIN_API_KEY
+        generateValue: true
+      - key: AI_PROVIDER
+        value: demo        # set to gemini or openai once a key is added below
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false

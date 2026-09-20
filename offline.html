@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RaahSaathi — Offline</title>
+    <style>
+      body {
+        margin: 0; min-height: 100vh; display: grid; place-items: center;
+        background: #f8fafc; color: #0f172a; padding: 24px;
+        font-family: Inter, system-ui, -apple-system, sans-serif;
+      }
+      .card { max-width: 380px; text-align: center; }
+      h1 { font-size: 20px; margin: 16px 0 8px; }
+      p { font-size: 14px; line-height: 1.6; color: #475569; margin: 0 0 20px; }
+      .numbers { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+      a {
+        display: block; padding: 14px 20px; border-radius: 12px;
+        background: #db2777; color: #fff; font-weight: 700;
+        text-decoration: none; font-size: 15px;
+      }
+      .logo {
+        width: 56px; height: 56px; border-radius: 16px; margin: 0 auto;
+        background: linear-gradient(135deg, #db2777, #0d9488);
+        display: grid; place-items: center; color: #fff;
+        font-size: 26px; font-weight: 900;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="logo">R</div>
+      <h1>You are offline</h1>
+      <p>
+        RaahSaathi cannot reach the alert network right now, so an SOS raised
+        here will <strong>not</strong> be delivered. If you need help, call
+        emergency services directly.
+      </p>
+      <div class="numbers">
+        <a href="tel:112">Call 112 — Emergency</a>
+        <a href="tel:1091" style="background:#0d9488">Call 1091 — Women Helpline</a>
+      </div>
+    </div>
+  </body>
+</html>
